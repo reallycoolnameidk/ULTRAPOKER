@@ -2,7 +2,10 @@
 Balatro mod that adds ULTRAKILL levels as Jokers
 # HOW TO INSTALL
 uhhh idk how to do the fancy github text formatting to add links so just install Lovely Injector from here: https://github.com/ethangreen-dev/lovely-injector
+
 and SMODS from here: https://github.com/Steamodded/smods
+
+then download the mod from the releases page and unzip and drop into %appdata%\Roaming\Balatro\Mods
 # FEARURES
 -27 Jokers based on the prelude and first two acts of ULTRAKILL + the two Prime Souls
 
