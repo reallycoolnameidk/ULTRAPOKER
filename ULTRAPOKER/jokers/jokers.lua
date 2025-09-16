@@ -817,7 +817,8 @@ SMODS.Joker{ --Soul Survivor
     key = "soulsurvivor",
     config = {
         extra = {
-            xmult = 1
+            xmult = 1,
+            triggered = 0
         }
     },
     loc_txt = {
@@ -825,7 +826,8 @@ SMODS.Joker{ --Soul Survivor
         ['text'] = {
             [1] = 'This Joker gains {X:red,C:white}X3{} Mult if played',
             [2] = 'hand triggers {C:attention}Boss Blind{} ability',
-            [3] = '{C:inactive}(Currently{} {X:red,C:white}X#1#{} {C:inactive}Mult){}'
+            [3] = 'triggers only {C:attention}once{} per Blind',
+            [4] = '{C:inactive}(Currently{} {X:red,C:white}X#1#{} {C:inactive}Mult){}'
         }
     },
     pos = {
@@ -846,14 +848,18 @@ SMODS.Joker{ --Soul Survivor
     end,
 
     calculate = function(self, card, context)
-        if G.GAME.blind.triggered and not context.blueprint and context.joker_main then
+        if G.GAME.blind.triggered and not context.blueprint and context.joker_main and card.ability.extra.triggered == 0 then
             card.ability.extra.xmult = card.ability.extra.xmult + 3
+            card.ability.extra.triggered = 1
             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
         end
         if context.joker_main then
             return {
                 Xmult = card.ability.extra.xmult
             }
+        end
+        if card.ability.extra.triggered == 1 and context.end_of_round and context.main_eval and not context.game_over then
+            card.ability.extra.triggered = 0
         end
     end
 }
@@ -1021,7 +1027,7 @@ SMODS.Joker{ --Clair de Soleil
     loc_txt = {
         ['name'] = 'Clair de Soleil',
         ['text'] = {
-            [1] = 'Gain {C:attention}+4{} hand size when',
+            [1] = '{C:attention}+4{} hand size when',
             [2] = 'opening a {C:attention}Booster Pack{}'
         }
     },
@@ -1344,7 +1350,7 @@ SMODS.Joker{ --Cry for the Weeper
             end
             if card.ability.extra.loyalty_remaining == card.ability.extra.every then
                 for _, pcard in ipairs(context.scoring_hand) do
-                    local targ = pseudorandom('misprint', 1, #context.scoring_hand)
+                    local targ = math.random(#context.scoring_hand)
                     if pcard == context.scoring_hand[targ] and not pcard.debuff then
                         local mult_gain = pcard.base.nominal
                         card.ability.extra.mult = card.ability.extra.mult + mult_gain
@@ -1370,8 +1376,8 @@ SMODS.Joker{ --Aesthetics of Hate
     loc_txt = {
         ['name'] = 'Aesthetics of Hate',
         ['text'] = {
-            [1] = 'After {C:attention}6 consecutive{} hands without playing your',
-            [2] = 'most played {C:attention}poker hand{}, gain {C:money}$20{}',
+            [1] = 'After {C:attention}6 consecutive{} hands without playing',
+            [2] = 'your most played {C:attention}poker hand{}, gain {C:money}$20{}',
             [3] = '{C:red}self destructs{}',
             [4] = '{C:inactive}#1# remaining{}'
         }
