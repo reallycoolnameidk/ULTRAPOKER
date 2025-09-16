@@ -1,0 +1,18 @@
+{
+  "id": "uk",
+  "name": "ultrakill",
+  "author": [
+    "really cool name idk"
+  ],
+  "description": "Jokers for ULTRAKILL levels aside from layer 7 since Cryptid already did that",
+  "prefix": "uk",
+  "main_file": "main.lua",
+  "version": "1.0.0",
+  "priority": 0,
+  "badge_colour": "D50000",
+  "badge_text_colour": "FF7F00",
+  "display_name": "UKTRAKILL",
+  "dependencies": [
+    "Steamodded (>=1.0.0~BETA-0711a)"
+  ]
+}
